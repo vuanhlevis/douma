@@ -1,10 +1,13 @@
 package game.screnes;
 
 /**
- * Created by VALV on 7/23/2017.
+ * Created by VALV on 7/24/2017.
  */
 public class Settings {
-    // gameplayWidth, gameplayHeight
-    // windowWidth, windowHeight
-    // Frame delay = 17
+    public  static  int windowWidth = 800;
+    public  static  int windowheight = 600;
+    public  static  int gameplaywidth = 384;
+    public  static  int gameplayheight = 600;
+    public static int frameDelay = 17;
+
 }

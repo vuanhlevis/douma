@@ -23,6 +23,7 @@ public class BlueEnemy extends GameObject implements PhysicsBody {
     Vector2D velocity;
     public BoxCollider boxCollider;
     public static BlueEnemy instance;
+    public int HP;
 
     private ImageRenderer imageRenderer1;
     private ImageRenderer imageRenderer2;
@@ -33,6 +34,7 @@ public class BlueEnemy extends GameObject implements PhysicsBody {
     public BlueEnemy() {
         this.velocity = new Vector2D();
         instance = this;
+        this.HP = 10;
         this.coolDownspawE = new FrameCounter(150);
         this.coolDownCounter = new FrameCounter(50);
         this.imageRenderer1 = new ImageRenderer(Utils.loadAssetImage("enemies/level0/blue/0.png"));

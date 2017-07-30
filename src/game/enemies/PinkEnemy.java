@@ -1,10 +1,7 @@
 package game.enemies;
 
 import game.Utils;
-import game.bases.BoxCollider;
-import game.bases.FrameCounter;
-import game.bases.GameObject;
-import game.bases.Vector2D;
+import game.bases.*;
 import game.bases.physics.PhysicsBody;
 import game.bases.renderers.ImageRenderer;
 
@@ -29,7 +26,6 @@ public class PinkEnemy extends GameObject implements PhysicsBody {
 
     public static PinkEnemy instance;
 
-    int i = 5;
 
     boolean move1 = true, move2, move3;
 
@@ -48,7 +44,7 @@ public class PinkEnemy extends GameObject implements PhysicsBody {
         this.boxCollider = new BoxCollider(16, 16);
         children.add(boxCollider);
         instance = this;
-        this.HP = 20;
+        this.HP = 50;
     }
 
     public void spawnEnemy() {
@@ -90,10 +86,10 @@ public class PinkEnemy extends GameObject implements PhysicsBody {
         if (!spellDissabled) {
             if (count > 0) {
                 for (int j = 20; j < 160; j += 20) {
-                    PinkEnemySpell pinkEnemySpell = new PinkEnemySpell();
+                    PinkEnemySpell pinkEnemySpell = GameObjectPool.recycle(PinkEnemySpell.class);
                     pinkEnemySpell.nextPosition = new Vector2D((float) (10 * Math.cos(Math.PI * j / 180)), (float) (10 * Math.sin(j * Math.PI / 180)));
                     pinkEnemySpell.position.set(this.position);
-                    GameObject.add(pinkEnemySpell);
+
                     coolDownspell = new FrameCounter(8);
                 }
                 count--;

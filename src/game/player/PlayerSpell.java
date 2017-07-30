@@ -15,52 +15,72 @@ import game.enemies.PinkEnemy;
 /**
  * Created by VALV on 7/11/2017.
  */
-public class PlayerSpell extends GameObject implements PhysicsBody{
+public class PlayerSpell extends GameObject implements PhysicsBody {
     //properties : thuoc tinh
+    public static int damage;
     private BoxCollider boxCollider;
-    public PlayerSpell(){
+
+    public PlayerSpell() {
         super();
         this.renderer = new ImageRenderer(Utils.loadAssetImage("player-spell/a/0.png"));
-
-        boxCollider = new BoxCollider(20,20);
+        this.damage = 5;
+        boxCollider = new BoxCollider(20, 20);
         children.add(boxCollider);
     }
 
-    public void run(Vector2D parentPosition){
+    public void run(Vector2D parentPosition) {
         super.run(parentPosition);
         this.position.addUp(0, -10);
         hitEnemy();
         if (this.position.y < 0) {
-            this.isActive  = false;
+            this.isActive = false;
         }
+        System.out.println(damage);
     }
 
     private void hitEnemy() {
         BlueEnemy hitEnemy = Physics.bodyInRect(this.boxCollider, BlueEnemy.class);
         if (hitEnemy != null) {
-            hitEnemy.isActive = false;
+            hitEnemy.HP -= this.damage;
             this.isActive = false;
-            PlayerSpellExplove playerSpellExplove = GameObjectPool.recycle(PlayerSpellExplove.class);
-            playerSpellExplove.isActive = true;
-            playerSpellExplove.position = this.screenPosition;
+            if (hitEnemy.HP <= 0) {
+                PlayerSpellExplove playerSpellExplove = GameObjectPool.recycle(PlayerSpellExplove.class);
+                playerSpellExplove.isActive = true;
+                playerSpellExplove.position = this.screenPosition;
+                Items items = GameObjectPool.recycle(Items.class);
+                items.position.set(this.position);
+                hitEnemy.isActive = false;
+            }
+
         }
 
         BossEnemy bossEnemy = Physics.bodyInRect(this.boxCollider, BossEnemy.class);
         if (bossEnemy != null) {
-            bossEnemy.isActive = false;
+            bossEnemy.HP -= damage;
             this.isActive = false;
-            PlayerSpellExplove playerSpellExplove = GameObjectPool.recycle(PlayerSpellExplove.class);
-            playerSpellExplove.isActive = true;
-            playerSpellExplove.position = this.screenPosition;
+            if (bossEnemy.HP <= 0) {
+                PlayerSpellExplove playerSpellExplove = GameObjectPool.recycle(PlayerSpellExplove.class);
+                playerSpellExplove.isActive = true;
+                playerSpellExplove.position = this.screenPosition;
+                bossEnemy.isActive = false;
+            }
+
         }
 
         PinkEnemy pinkEnemy = Physics.bodyInRect(this.boxCollider, PinkEnemy.class);
         if (pinkEnemy != null) {
-            pinkEnemy.isActive = false;
+            pinkEnemy.HP -= damage;
             this.isActive = false;
-            PlayerSpellExplove playerSpellExplove = GameObjectPool.recycle(PlayerSpellExplove.class);
-            playerSpellExplove.isActive = true;
-            playerSpellExplove.position = this.screenPosition;
+            if (pinkEnemy.HP <= 0) {
+                Items items = GameObjectPool.recycle(Items.class);
+                items.power = 2;
+                items.position.set(this.position);
+                PlayerSpellExplove playerSpellExplove = GameObjectPool.recycle(PlayerSpellExplove.class);
+                playerSpellExplove.isActive = true;
+                playerSpellExplove.position = this.screenPosition;
+                pinkEnemy.isActive = false;
+            }
+
         }
 //        System.out.println(hitEnemy);
 

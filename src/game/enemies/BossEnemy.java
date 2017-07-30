@@ -2,10 +2,7 @@ package game.enemies;
 
 import game.Utils;
 
-import game.bases.BoxCollider;
-import game.bases.FrameCounter;
-import game.bases.GameObject;
-import game.bases.Vector2D;
+import game.bases.*;
 import game.bases.physics.PhysicsBody;
 import game.bases.renderers.ImageRenderer;
 
@@ -28,7 +25,7 @@ public class BossEnemy extends GameObject implements PhysicsBody {
     ImageRenderer imageRenderer3;
     FrameCounter changePicture;
     BoxCollider boxCollider;
-
+    public int HP;
 
     public BossEnemy() {
         this.coolDownSpel = new FrameCounter(2);
@@ -42,6 +39,7 @@ public class BossEnemy extends GameObject implements PhysicsBody {
         this.boxCollider = new BoxCollider(40, 40);
         this.children.add(boxCollider);
 
+        this.HP = 2000;
     }
 
     public void spawnEnemyBoss() {
@@ -71,22 +69,22 @@ public class BossEnemy extends GameObject implements PhysicsBody {
     public void castSpell() {
         if (!spellDissabled) {
             if (tmp) {
-                BossEnemySpell2 bossEnemySpell = new BossEnemySpell2();
+                BossEnemySpell2 bossEnemySpell = GameObjectPool.recycle(BossEnemySpell2.class);
                 bossEnemySpell.nexposition = new Vector2D((float) (5 * Math.cos(Math.PI * i / 18)), (float) (5 * Math.sin(Math.PI * i / 18)));
                 bossEnemySpell.position.set(this.position);
-                GameObject.add(bossEnemySpell);
+
                 i++;
 
-                BossEnemySpell2 bossEnemySpell1 = new BossEnemySpell2();
+                BossEnemySpell2 bossEnemySpell1 = GameObjectPool.recycle(BossEnemySpell2.class);
                 bossEnemySpell1.nexposition = new Vector2D((float) (5 * Math.cos(Math.PI * j / 18)), (float) (5 * Math.sin(Math.PI * j / 18)));
                 bossEnemySpell1.position.set(this.position);
-                GameObject.add(bossEnemySpell1);
+
                 j++;
 
-                BossEnemySpell2 bossEnemySpell2 = new BossEnemySpell2();
+                BossEnemySpell2 bossEnemySpell2 = GameObjectPool.recycle(BossEnemySpell2.class);
                 bossEnemySpell2.nexposition = new Vector2D((float) (5 * Math.cos(Math.PI * k / 18)), (float) (5 * Math.sin(Math.PI * k / 18)));
                 bossEnemySpell2.position.set(this.position);
-                GameObject.add(bossEnemySpell2);
+
                 k++;
 
 
@@ -100,10 +98,9 @@ public class BossEnemy extends GameObject implements PhysicsBody {
             } else {
                 if (count > 0) {
                     for (int j = 0; j < 360; j += 10) {
-                        BossEnemySpell bossEnemySpell = new BossEnemySpell();
+                        BossEnemySpell bossEnemySpell = GameObjectPool.recycle(BossEnemySpell.class);
                         bossEnemySpell.nexposition = new Vector2D((float) (5 * Math.cos(Math.PI * j / 180)), (float) (5 * Math.sin(Math.PI * j / 180)));
                         bossEnemySpell.position.set(this.position);
-                        GameObject.add(bossEnemySpell);
                         coolDownSpel = new FrameCounter(4);
                     }
 
